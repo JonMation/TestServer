@@ -1,0 +1,15 @@
+GET http://localhost:5086/data
+
+###
+
+POST http://localhost:5086/data
+Content-Type: application/json
+
+{
+  "id": 3,
+  "name": "Hallo Rider"
+}
+
+###
+
+DELETE http://localhost:5086/data/1
