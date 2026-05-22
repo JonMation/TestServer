@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices;
+
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
@@ -9,17 +11,20 @@ var data = new List<Item>
 
 app.MapGet("/data", () =>
 {
+    Console.WriteLine("Data:" + data.Count);
     return Results.Ok(data);
 });
 
 app.MapPost("/data", (Item item) =>
 {
+    Console.WriteLine("Data:" + data.Count);
     data.Add(item);
     return Results.Created($"/data/{item.Id}", item);
 });
 
 app.MapDelete("/data/{id:int}", (int id) =>
 {
+    Console.WriteLine("Data:" + data.Count);
     var item = data.FirstOrDefault(x => x.Id == id);
 
     if (item == null)
