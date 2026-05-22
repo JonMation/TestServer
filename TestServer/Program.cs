@@ -1,39 +1,59 @@
-using System.Runtime.InteropServices;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Directory.CreateDirectory("data");
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite("Data Source=data/data.db"));
+
 var app = builder.Build();
 
-var data = new List<Item>
+using (var scope = app.Services.CreateScope())
 {
-    new Item(1, "Test 1"),
-    new Item(2, "Test 2")
-};
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.EnsureCreated();
+}
 
-app.MapGet("/data", () =>
+app.MapGet("/data", async (AppDbContext db) =>
 {
-    Console.WriteLine("Data:" + data.Count);
-    return Results.Ok(data);
+    return await db.Items.ToListAsync();
 });
 
-app.MapPost("/data", (Item item) =>
+app.MapPost("/data", async (Item item, AppDbContext db) =>
 {
-    Console.WriteLine("Data:" + data.Count);
-    data.Add(item);
+    db.Items.Add(item);
+    await db.SaveChangesAsync();
+
     return Results.Created($"/data/{item.Id}", item);
 });
 
-app.MapDelete("/data/{id:int}", (int id) =>
+app.MapDelete("/data/{id:int}", async (int id, AppDbContext db) =>
 {
-    Console.WriteLine("Data:" + data.Count);
-    var item = data.FirstOrDefault(x => x.Id == id);
+    var item = await db.Items.FindAsync(id);
 
     if (item == null)
         return Results.NotFound();
 
-    data.Remove(item);
+    db.Items.Remove(item);
+    await db.SaveChangesAsync();
+
     return Results.NoContent();
 });
 
 app.Run();
 
-record Item(int Id, string Name);
+class AppDbContext : DbContext
+{
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+    {
+    }
+
+    public DbSet<Item> Items => Set<Item>();
+}
+
+class Item
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = "";
+}

@@ -6,7 +6,7 @@ POST http://localhost:5086/data
 Content-Type: application/json
 
 {
-  "id": 4,
+  "id": 3,
   "name": "Hallo Rider"
 }
 
