@@ -1,33 +1,60 @@
 ﻿using combit.Reporting;
 using combit.Reporting.DataProviders;
+using combit.Reporting.Dom;
 using System.Data;
-using System.IO;
 
 DataTable table = new DataTable("Texts");
 table.Columns.Add("Text", typeof(string));
 table.Rows.Add("Hello World");
 
-using ListLabel LL = new ListLabel();
-LL.DataSource = new AdoDataProvider(table);
+string projectFolder = Path.GetFullPath(
+    Path.Combine(AppContext.BaseDirectory, @"..\..\..\")
+);
 
-string projectFolder = AppContext.BaseDirectory;
+string reportsFolder = Path.Combine(projectFolder, "reports");
+Directory.CreateDirectory(reportsFolder);
 
-string outputPdf = Path.Combine(projectFolder, "hello.pdf");
-string projectFile = Path.Combine(projectFolder, "hello.lst");
+string projectFile = Path.Combine(reportsFolder, "hello.lst");
+string outputPdf = Path.Combine(reportsFolder, "hello.pdf");
 
-// Designer einmal öffnen
-LL.LicensingInfo = "6iZKGg";
-LL.Design(LlProject.List, projectFile);
+using ListLabel ll = new ListLabel();
+ll.DataSource = new AdoDataProvider(table);
 
-// Danach exportieren
-ExportConfiguration config = new ExportConfiguration(
+// 1. hello.lst automatisch per Code erstellen
+if (!File.Exists(projectFile))
+{
+    ProjectList project = new ProjectList(ll);
+
+    project.Open(
+        projectFile,
+        LlDomFileMode.Create,
+        LlDomAccessMode.ReadWrite
+    );
+
+    ObjectText textObject = new ObjectText(project.Objects);
+    textObject.Name = "HelloWorldText";
+    textObject.Position.Set(20000, 20000, 120000, 20000);
+
+    Paragraph paragraph = new Paragraph(textObject.Paragraphs);
+    paragraph.Contents = "\"Hello World Hier ist mein roman viel glück dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd\"";
+
+    project.Save();
+    project.Close();
+
+    Console.WriteLine("hello.lst wurde automatisch erstellt:");
+    Console.WriteLine(projectFile);
+}
+
+// 2. PDF aus der automatisch erstellten .lst erzeugen
+var exportConfig = new ExportConfiguration(
     LlExportTarget.Pdf,
     outputPdf,
     projectFile
 );
 
-config.ShowResult = true;
+ll.Export(exportConfig);
 
-LL.Export(config);
+Console.WriteLine("PDF erstellt:");
+Console.WriteLine(outputPdf);
 
-Console.WriteLine("PDF erstellt: " + outputPdf);
+//Console.ReadLine();

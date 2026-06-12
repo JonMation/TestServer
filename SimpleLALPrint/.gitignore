@@ -1,22 +1,49 @@
+# Build
 bin/
 obj/
 
+# Rider
 .idea/
 *.sln.iml
+.idea_modules/
 
+# Visual Studio
+.vs/
 *.user
 *.suo
 *.userosscache
 *.sln.docstates
 
+# VS interne Dateien
+*.vsidx
+*.dbcache
+*.bin
+slnx.sqlite
+VSWorkspaceState.json
+UpgradeLog.htm
+
+# macOS
 .DS_Store
 
+# Logs
 *.log
 
+# NuGet Packages
 *.nupkg
 
+# Test Results
+TestResults/
+
+# Local Settings
 appsettings.Development.json
 
-.idea_modules/
+# Generated Reports
+reports/*.pdf
+reports/*.lsp
 
-TestResults/
+# Backup-Dateien
+Backup/
+
+# ReSharper / Rider Cache
+_ReSharper*/
+*.DotSettings.user
