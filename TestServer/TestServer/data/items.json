@@ -1,0 +1,22 @@
+[
+  {
+    "Name": "Milch",
+    "Name2": "Brot2",
+    "Amount": 2
+  },
+  {
+    "Name": "Brot",
+    "Name2": "Brot2",
+    "Amount": 1
+  },
+  {
+    "Name": "Butter",
+    "Name2": "Brot2",
+    "Amount": 1000
+  },
+  {
+    "Name": "Gold",
+    "Name2": "Brot2",
+    "Amount": 101
+  }
+]

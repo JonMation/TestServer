@@ -19,4 +19,7 @@ using (var scope = app.Services.CreateScope())
 
 app.MapItemEndpoints();
 
+LALManager.Create();
+
+
 app.Run();
