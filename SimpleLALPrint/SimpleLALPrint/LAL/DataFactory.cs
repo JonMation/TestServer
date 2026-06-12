@@ -2,7 +2,7 @@ using System.Data;
 
 namespace SimpleLALPrint;
 
-public class ReportDataFactory
+public class DataFactory
 {
     public static DataTable CreateHelloWorldTable()
     {

@@ -4,7 +4,7 @@ using combit.Reporting.Dom;
 using System.Data;
 using SimpleLALPrint;
 
-DataTable table = ReportDataFactory.CreateHelloWorldTable();
+DataTable table = DataFactory.CreateHelloWorldTable();
 string fileName = "hello";
 
 string projectFolder = Path.GetFullPath(
@@ -18,6 +18,6 @@ using ListLabel ll = new ListLabel();
 ll.DataSource = new AdoDataProvider(table);
 
 TemplateCreator.Create(ll, reportsFolder, fileName);
-ReportPdfExporter.ExportPDF(ll, reportsFolder, fileName);
+PdfExporter.Export(ll, reportsFolder, fileName);
 
 Console.ReadLine();
