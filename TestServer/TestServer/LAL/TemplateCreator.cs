@@ -8,7 +8,6 @@ public class TemplateCreator
 {
     public static void Create(
         ListLabel ll,
-        DataTable table,
         string reportsFolder,
         string fileName)
     {

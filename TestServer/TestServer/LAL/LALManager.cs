@@ -21,6 +21,7 @@ public class LALManager
 
         DataTable table = JsonDataFactory.Load(jsonPath);
         
+        
         using ListLabel ll = new ListLabel();
         ll.DataSource = new AdoDataProvider(table);
 
