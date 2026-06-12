@@ -19,7 +19,7 @@ public class LALManager
 
         string jsonPath = Path.Combine(projectFolder, "data", "items.json");
 
-        DataTable table = JsonDataFactory.Load(jsonPath);
+        DataTable table = ToDoJsonReader.Load(jsonPath);
         
         
         using ListLabel ll = new ListLabel();

@@ -3,7 +3,7 @@ using System.Text.Json;
 
 namespace SimpleLALPrint;
 
-public static class JsonDataFactory
+public static class ToDoJsonReader
 {
     public static DataTable Load(string jsonPath)
     {
