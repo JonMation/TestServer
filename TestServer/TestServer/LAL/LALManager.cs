@@ -25,7 +25,7 @@ public class LALManager
         using ListLabel ll = new ListLabel();
         ll.DataSource = new AdoDataProvider(table);
 
-        TemplateCreator.Create(ll, reportsFolder, fileName);
+        TemplateCreator.Create(ll, table, reportsFolder, fileName);
         PdfExporter.Export(ll, reportsFolder, fileName);
     }
 }
