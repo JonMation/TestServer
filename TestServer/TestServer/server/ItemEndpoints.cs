@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SimpleLALPrint;
 
 namespace TestServer;
 
@@ -30,6 +31,16 @@ public static class ItemEndpoints
             await db.SaveChangesAsync();
 
             return Results.NoContent();
+        });
+
+        app.MapGet("/data/export", () =>
+        {
+            Task.Run(() =>
+            {
+                LALManager.Create();
+            });
+
+            return Results.Accepted("/data/export", "PDF export wurde gestartet.");
         });
     }
 }

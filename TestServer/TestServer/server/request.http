@@ -13,3 +13,7 @@ Content-Type: application/json
 ###
 
 DELETE http://localhost:5086/data/1
+
+###
+
+GET http://localhost:5086/data/export
