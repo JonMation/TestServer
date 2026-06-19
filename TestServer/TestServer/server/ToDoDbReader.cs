@@ -5,7 +5,7 @@ namespace SimpleLALPrint;
 
 public static class ToDoDbReader
 {
-    public static DataTable Load(AppDbContext db)
+    public static DataTable LoadTable(AppDbContext db)
     {
         db.Database.EnsureCreated();
 
@@ -28,11 +28,4 @@ public static class ToDoDbReader
 
         return table;
     }
-    
-    /*public static List<ItemToDo> Load(AppDbContext db)
-    {
-        db.Database.EnsureCreated();
-
-        return db.Items.ToList();
-    }*/
 }

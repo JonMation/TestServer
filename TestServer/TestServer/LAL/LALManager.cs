@@ -17,11 +17,8 @@ public class LALManager
 
         string reportsFolder = Path.Combine(projectFolder, "reports");
         Directory.CreateDirectory(reportsFolder);
-
-        //string jsonPath = Path.Combine(projectFolder, "data", "items.json");
-
-        DataTable table = ToDoDbReader.Load(db);
         
+        DataTable table = ToDoDbReader.LoadTable(db);
         
         using ListLabel ll = new ListLabel();
         ll.DataSource = new AdoDataProvider(table);
