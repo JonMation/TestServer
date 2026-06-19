@@ -1,12 +1,13 @@
 using System.Data;
 using combit.Reporting;
 using combit.Reporting.DataProviders;
+using TestServer;
 
 namespace SimpleLALPrint;
 
 public class LALManager
 {
-    public static void Create()
+    public static void Create(AppDbContext db)
     {
         string fileName = "hello";
 
@@ -17,9 +18,9 @@ public class LALManager
         string reportsFolder = Path.Combine(projectFolder, "reports");
         Directory.CreateDirectory(reportsFolder);
 
-        string jsonPath = Path.Combine(projectFolder, "data", "items.json");
+        //string jsonPath = Path.Combine(projectFolder, "data", "items.json");
 
-        DataTable table = ToDoJsonReader.Load(jsonPath);
+        DataTable table = ToDoDbReader.Load(db);
         
         
         using ListLabel ll = new ListLabel();

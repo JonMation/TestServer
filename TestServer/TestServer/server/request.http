@@ -6,8 +6,20 @@ POST http://localhost:5086/data
 Content-Type: application/json
 
 {
-  "id": 1,
-  "name": "Hallo Rider"
+  "name": "Apfel",
+  "name2": "Rot",
+  "amount": 5
+}
+
+###
+
+PUT http://localhost:5086/data/4
+Content-Type: application/json
+
+{
+  "name": "Birne",
+  "name2": "Gruen",
+  "amount": 8
 }
 
 ###

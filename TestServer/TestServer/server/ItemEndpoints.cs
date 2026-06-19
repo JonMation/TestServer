@@ -12,17 +12,43 @@ public static class ItemEndpoints
             return await db.Items.ToListAsync();
         });
 
-        app.MapPost("/data", async (Item item, AppDbContext db) =>
+        app.MapGet("/data/{id:int}", async (int id, AppDbContext db) =>
+        {
+            ItemToDo? item = await db.Items.FindAsync(id);
+
+            if (item == null)
+                return Results.NotFound();
+
+            return Results.Ok(item);
+        });
+
+        app.MapPost("/data", async (ItemToDo item, AppDbContext db) =>
         {
             db.Items.Add(item);
             await db.SaveChangesAsync();
 
             return Results.Created($"/data/{item.Id}", item);
         });
-        
+
+        app.MapPut("/data/{id:int}", async (int id, ItemToDo updatedItem, AppDbContext db) =>
+        {
+            ItemToDo? item = await db.Items.FindAsync(id);
+
+            if (item == null)
+                return Results.NotFound();
+
+            item.Name = updatedItem.Name;
+            item.Name2 = updatedItem.Name2;
+            item.Amount = updatedItem.Amount;
+
+            await db.SaveChangesAsync();
+
+            return Results.Ok(item);
+        });
+
         app.MapDelete("/data/{id:int}", async (int id, AppDbContext db) =>
         {
-            var item = await db.Items.FindAsync(id);
+            ItemToDo? item = await db.Items.FindAsync(id);
 
             if (item == null)
                 return Results.NotFound();
@@ -33,14 +59,11 @@ public static class ItemEndpoints
             return Results.NoContent();
         });
 
-        app.MapGet("/data/export", () =>
+        app.MapGet("/data/export", (AppDbContext db) =>
         {
-            Task.Run(() =>
-            {
-                LALManager.Create();
-            });
+            LALManager.Create(db);
 
-            return Results.Accepted("/data/export", "PDF export wurde gestartet.");
+            return Results.Ok("PDF export wurde erstellt.");
         });
     }
 }
