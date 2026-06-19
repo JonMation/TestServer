@@ -28,4 +28,11 @@ public static class ToDoDbReader
 
         return table;
     }
+    
+    /*public static List<ItemToDo> Load(AppDbContext db)
+    {
+        db.Database.EnsureCreated();
+
+        return db.Items.ToList();
+    }*/
 }

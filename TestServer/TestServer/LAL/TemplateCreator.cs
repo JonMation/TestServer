@@ -1,7 +1,7 @@
 using System.Data;
 using combit.Reporting;
-using combit.Reporting.DataProviders;
 using combit.Reporting.Dom;
+using TestServer;
 
 namespace SimpleLALPrint;
 
@@ -9,7 +9,8 @@ public class TemplateCreator
 {
     public static void Create(
         ListLabel ll,
-        DataTable table,
+        string tableName,
+        IEnumerable<DataColumn> columns,
         string reportsFolder,
         string fileName)
     {
@@ -17,8 +18,6 @@ public class TemplateCreator
         //    placeholders in the .lst have nothing to resolve against.
         //    The TableName must be set, because it becomes the field prefix
         //    (Table.Column) and must match the table's TableId below.
-        if (string.IsNullOrEmpty(table.TableName))
-            table.TableName = "Data";
         
         string projectFile = Path.Combine(reportsFolder, fileName + ".lst");
         
@@ -42,7 +41,7 @@ public class TemplateCreator
 
         // The table's TableId must match the data source table name.
         SubItemTable tableItem = new SubItemTable(container.SubItems);
-        tableItem.TableId = table.TableName;
+        tableItem.TableId = tableName;
 
         // 3) Exactly ONE header line and ONE data line. List & Label repeats
         //    the data line for every row in the data source at print time,
@@ -50,10 +49,11 @@ public class TemplateCreator
         TableLineHeader headerLine = new TableLineHeader(tableItem.Lines.Header);
         TableLineData dataLine = new TableLineData(tableItem.Lines.Data);
 
-        int columnWidth = containerWidth / Math.Max(table.Columns.Count, 1);
+        var cols = columns.ToList();
+        int columnWidth = containerWidth / Math.Max(cols.Count, 1);
         string columnWidthText = columnWidth.ToString();
 
-        foreach (DataColumn column in table.Columns)
+        foreach (DataColumn column in cols)
         {
             // Header cell: quoted literal => a static column title.
             TableFieldText headerCell = new TableFieldText(headerLine.Fields);
@@ -64,7 +64,7 @@ public class TemplateCreator
             // Data cell: UNQUOTED field reference => filled from the data
             // source, once per row. Syntax is Table.Column.
             TableFieldText dataCell = new TableFieldText(dataLine.Fields);
-            dataCell.Contents = $"{table.TableName}.{column.ColumnName}";
+            dataCell.Contents = $"{tableName}.{column.ColumnName}";
             dataCell.Width = columnWidthText;
         }
 
