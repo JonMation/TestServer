@@ -8,7 +8,8 @@ Content-Type: application/json
 {
   "name": "Apfel",
   "name2": "Rot",
-  "amount": 5
+  "amount": 5,
+  "amount2": 5
 }
 
 ###
@@ -19,7 +20,8 @@ Content-Type: application/json
 {
   "name": "Birne",
   "name2": "Gruen",
-  "amount": 8
+  "amount": 8,
+  "amount2": 5
 }
 
 ###

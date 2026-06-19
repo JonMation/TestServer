@@ -37,9 +37,11 @@ public static class ItemEndpoints
             if (item == null)
                 return Results.NotFound();
 
-            item.Name = updatedItem.Name;
-            item.Name2 = updatedItem.Name2;
-            item.Amount = updatedItem.Amount;
+            foreach (var prop in typeof(ItemToDo).GetProperties())
+            {
+                if (prop.Name == "Id") continue;
+                prop.SetValue(item, prop.GetValue(updatedItem));
+            }
 
             await db.SaveChangesAsync();
 

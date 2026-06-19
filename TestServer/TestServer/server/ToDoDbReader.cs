@@ -1,4 +1,5 @@
 using System.Data;
+using System.Reflection;
 using TestServer;
 
 namespace SimpleLALPrint;
@@ -11,19 +12,22 @@ public static class ToDoDbReader
 
         DataTable table = new DataTable("Items");
 
-        table.Columns.Add("Id", typeof(int));
-        table.Columns.Add("Name", typeof(string));
-        table.Columns.Add("Name2", typeof(string));
-        table.Columns.Add("Amount", typeof(int));
+        // Header
+        PropertyInfo[] properties = typeof(ItemToDo).GetProperties();
+        foreach (var prop in properties)
+        {
+            table.Columns.Add(prop.Name, prop.PropertyType);
+        }
 
+        // Contend
         foreach (ItemToDo item in db.Items)
         {
-            table.Rows.Add(
-                item.Id,
-                item.Name,
-                item.Name2,
-                item.Amount
-            );
+            DataRow row = table.NewRow();
+            foreach (var prop in properties)
+            {
+                row[prop.Name] = prop.GetValue(item) ?? DBNull.Value;
+            }
+            table.Rows.Add(row);
         }
 
         return table;
