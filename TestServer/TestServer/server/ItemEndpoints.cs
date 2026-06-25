@@ -61,11 +61,11 @@ public static class ItemEndpoints
             return Results.NoContent();
         });
 
-        app.MapGet("/data/export", (AppDbContext db) =>
-        {
-            LALManager.Create(db);
-
-            return Results.Ok("PDF export wurde erstellt.");
-        });
+        // app.MapGet("/data/export", (AppDbContext db) =>
+        // {
+        //     LALManager.Create(db);
+        //
+        //     return Results.Ok("PDF export wurde erstellt.");
+        // });
     }
 }

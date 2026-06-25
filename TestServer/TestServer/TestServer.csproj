@@ -7,13 +7,22 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="combit.ListLabel31" Version="31.2.0" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.8" />
         <PackageReference Include="System.Drawing.Common" Version="10.0.8" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.2" />
+    </ItemGroup>
+
+    <!-- List & Label nur auf Windows einbinden -->
+    <ItemGroup Condition="'$(OS)' == 'Windows_NT'">
+        <PackageReference Include="combit.ListLabel31" Version="31.2.0" />
+    </ItemGroup>
+
+    <!-- LAL-Code im Linux-Docker nicht kompilieren -->
+    <ItemGroup Condition="'$(OS)' != 'Windows_NT'">
+        <Compile Remove="LAL\**\*.cs" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="reports\" />
+        <Folder Include="reports\" />
     </ItemGroup>
 
 </Project>

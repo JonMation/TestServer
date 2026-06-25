@@ -6,10 +6,28 @@ POST http://localhost:8080/data
 Content-Type: application/json
 
 {
-  "id": 4,
-  "name": "Hallo Rider"
+  "name": "Apfel",
+  "name2": "Rot",
+  "amount": 5,
+  "amount2": 5
 }
 
 ###
 
-DELETE http://localhost:8080/data/2
+PUT http://localhost:8080/data/2
+Content-Type: application/json
+
+{
+  "name": "Birne",
+  "name2": "Gruen",
+  "amount": 8,
+  "amount2": 5
+}
+
+###
+
+DELETE http://localhost:8080/data/1
+
+###
+
+GET http://localhost:8080/data/export
