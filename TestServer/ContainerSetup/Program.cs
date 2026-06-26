@@ -1,13 +1,13 @@
-using Microsoft.EntityFrameworkCore;
-using SimpleLALPrint;
+﻿using Microsoft.EntityFrameworkCore;
 using TestServer;
 
 var builder = WebApplication.CreateBuilder(args);
 
-Directory.CreateDirectory("data");
+//Directory.CreateDirectory("data");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite("Data Source=data/data.db"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
 
 var app = builder.Build();
 
@@ -15,7 +15,7 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.EnsureCreated();
-    LALManager.Create(db);
+    //LALManager.Create(db);
 }
 
 app.MapItemEndpoints();

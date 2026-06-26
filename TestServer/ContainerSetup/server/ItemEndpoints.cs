@@ -64,7 +64,7 @@ public static class ItemEndpoints
         app.MapGet("/data/export", (AppDbContext db) =>
         {
             LALManager.Create(db);
-
+        
             return Results.Ok("PDF export wurde erstellt.");
         });
     }
